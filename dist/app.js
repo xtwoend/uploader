@@ -14436,7 +14436,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
       window.location.replace("".concat(this.session, "/").concat(slug));
     },
     uploadSuccess: function uploadSuccess(file, res) {
-      var fileObj = JSON.parse(res);
+      var fileObj = res;
       this.files.push(fileObj);
     },
     deleteFile: function deleteFile(id) {

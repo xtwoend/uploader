@@ -37,7 +37,7 @@ const app = new Vue({
       window.location.replace(`${this.session}/${slug}`);
     },
     uploadSuccess(file, res) {
-      let fileObj = JSON.parse(res);
+      let fileObj = res;
       this.files.push(fileObj);
     },
     async deleteFile(id){

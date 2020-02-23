@@ -133,7 +133,7 @@ class Uploader
 
     private function getKeyName($file)
     {	
-    	$extension = $this->mime2ext(mime_content_type($file));
+    	$extension = $this->mime2ext(\mime_content_type($file));
 	            
     	$name = $this->hasKey . ".{$extension}";
     	if($this->exists($this->prefix . $name)){

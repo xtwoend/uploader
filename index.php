@@ -1,38 +1,31 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require 'vendor/autoload.php';
 
 @session_start();
+
 if (! isset($_SESSION['csrf'])) {
     $_SESSION['csrf'] = base64_encode(openssl_random_pseudo_bytes(32));
 }
 
-$router = new \Buki\Router([
-  	'paths' => [
-		'controllers' => 'src',
-		'middlewares' => 'src',
-  	],
-  	'namespaces' => [
-		'controllers' => 'App',
-		'middlewares' => 'App',
-  	],
-]);
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
+    $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
+);
 
+$router = new League\Route\Router;
 
-$router->get('/', 'Controller@index');
-$router->post('/upload', ['before' => 'CsrfMiddleware'], 'Controller@upload');
-$router->get('/gallery/:string', 'Controller@gallery');
-$router->get('/delete/:string', 'Controller@del');
-$router->post('/destroy/:id', 'Controller@destroy');
-$router->get('/download/:string', 'Controller@download');
-$router->get('/:string/:string', 'Controller@show');
-$router->get('/:string', 'Controller@view');
-$router->get('/i/:string/:all?', 'Controller@file');
+$router->get('/', 'App\Controller::index');
+$router->post('/upload', 'App\Controller::upload')->middleware(new App\CsrfMiddleware);
+$router->get('/gallery/{group}', 'App\Controller::gallery');
+$router->get('/delete/{id:number}', 'App\Controller::del');
+$router->get('/download/{post}', 'App\Controller::download');
+$router->get('/{post}', 'App\Controller::view');
+$router->get('/{group}/{post}', 'App\Controller::show');
 
-$router->error(function() {
-	http_response_code(404);
-	$views = new League\Plates\Engine('resources/views', 'html');
-	echo $views->render('404');
-});
+$response = $router->dispatch($request);
 
-$router->run();
+(new Laminas\HttpHandlerRunner\Emitter\SapiEmitter)->emit($response);

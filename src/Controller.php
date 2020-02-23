@@ -8,6 +8,8 @@ use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Filesystem;
 use League\Plates\Engine;
 use Medoo\Medoo;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * 
@@ -27,51 +29,48 @@ class Controller
 		$this->s3 = new S3Client($this->config['aws']);
 	}
 
-	public function index()
+	public function index(): ResponseInterface
 	{
-		return $this->views->render('home');
+		return view('home');
 	}
 
-	public function view($post)
-	{
-		$file = $this->db->get('files', '*', ['filename' => $post]);
+	public function view(ServerRequestInterface $request, $args): ResponseInterface
+	{	
+		$file = $this->db->get('files', '*', ['filename' => $args['post']]);
 		if(! (count($file) > 0))
 			header("location: /");
 
-
-		return $this->views->render('preview', ['file' => (object) $file]);
+		return view('preview', ['file' => (object) $file]);
 	}
 
-	public function show($group, $post)
+	public function show(ServerRequestInterface $request, $args): ResponseInterface
 	{
+		$group = $args['group'];
+
 		$files = $this->db->select('files', '*', ['group' => $group]);
 		if(! (count($files) > 0))
 			header("location: /");
 
-		return $this->views->render('show', compact('files'));
+		return view('show', compact('files'));
 	}
 
-	public function file($post, $name)
+	public function gallery(ServerRequestInterface $request, $args): ResponseInterface
 	{
-		$file = $this->db->get('files', '*', ['filename' => $post]);
-		if(! (count($file) > 0))
-			header("location: /");
+		$group = $args['group'];
 
-		
-	}
-
-	public function gallery($group)
-	{
 		$files = $this->db->select('files', '*', ['group' => $group]);
 		if(! (count($files) > 0))
 			header("location: /");
 
-		return $this->views->render('gallery', compact('files'));
+		return view('gallery', compact('files'));
 	}
 
-	public function destroy($id)
+	public function destroy(ServerRequestInterface $request, $args): ResponseInterface
 	{
-		$file = $this->db->get('files', '*', ['id' => $id]);
+		$file = $this->db->get('files', '*', ['id' => $args['id']]);
+		$response = new \Laminas\Diactoros\Response;
+	    
+
 		if($file){
 			$file = (object) $file;
 		
@@ -80,23 +79,27 @@ class Controller
 			$t = $fs->delete('thumb/'.$file->path);
 			if($c) {
 				$this->db->delete('files', ['id' => $file->id]);
-				return json_encode(['success' => true]);
+				$response->getBody()->write(json_encode(['success' => true]));
+				return $response->withAddedHeader('content-type', 'application/json')->withStatus(200);
 			}
 		}
-		return json_encode(['success' => false]);
+		$response->getBody()->write(json_encode(['success' => false]));
+		return $response->withAddedHeader('content-type', 'application/json')->withStatus(200);
 	}
 
-	public function del($post)
+	public function del(ServerRequestInterface $request, $args): ResponseInterface
 	{
+		$post = $args['post'];
 		$file = $this->db->get('files', '*', ['filename' => $post]);
 		if(! (count($file) > 0))
 			header("location: /");
 
-		return $this->views->render('delete', ['file' => (object) $file]);
+		return view('delete', ['file' => (object) $file]);
 	}
 
-	public function download($post)
+	public function download(ServerRequestInterface $request, $args): ResponseInterface
 	{
+		$post = $args['post'];
 		$file = $this->db->get('files', '*', ['filename' => $post]);
 		if(! (count($file) > 0))
 			header("location: /");
@@ -111,7 +114,7 @@ class Controller
 		exit;
 	}
 
-	public function upload()
+	public function upload(ServerRequestInterface $request): ResponseInterface
 	{
 		$buckets = $this->config['buckets'];
 		$i = rand(0, count($buckets) -1 );
@@ -152,7 +155,9 @@ class Controller
 			$this->db->insert('files', $obj);
 		}
 
-		return json_encode($obj);
+		$response = new \Laminas\Diactoros\Response;
+	    $response->getBody()->write(json_encode($obj));
+		return $response->withAddedHeader('content-type', 'application/json')->withStatus(200);
 	}
 
 	protected function filesystem($bucket)

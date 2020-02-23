@@ -31,3 +31,22 @@ function imageUrl($bucket, $path)
 {
     return 'http://'. $bucket. '/'. $path;
 }
+
+if( !function_exists('mime_content_type')) {
+    function mime_content_type( $filename ) {
+        $finfo = finfo_open( FILEINFO_MIME_TYPE );
+        $mime_type = finfo_file( $finfo, $filename );
+        finfo_close( $finfo );
+        return $mime_type;
+    }
+}
+
+function view($template, $data = [])
+{
+    $response = new \Laminas\Diactoros\Response;
+    $view = new \League\Plates\Engine('resources/views', 'html');
+
+    $response->getBody()->write($view->render($template, $data));
+
+    return $response;
+}

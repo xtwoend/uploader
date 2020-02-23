@@ -1,0 +1,14 @@
+TODO
+
+1. Thumbnail [x]
+2. Progress effect [x]
+3. Redirect after upload [x]
+4. Image preview [x]
+5. View Gallery Upload [x]
+6. Image URL access [x]
+7. Delete image [x]
+8. cronjob delete file expired [x]
+9. dropzone wrapper [x]
+10. Unduh original file [x]
+
+

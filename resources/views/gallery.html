@@ -1,0 +1,21 @@
+<?php $this->layout('layout') ?>
+
+
+<div class="container btn-toolbar">
+	<button class="button is-small is-link is-outlined" @click="shareIt = !shareIt">
+	    <span class="icon">
+	    	<i class="icon ion-android-share ion-2x"></i> 
+	    </span>
+	    <span>Bagikan</span>
+	</button>
+</div>
+
+<div ref="shareIt" :class="{'hide': ! shareIt, 'share-wapper': true}">
+	<div class="container copy">
+		<div class="copy-frame">
+			<?=$this->insert('shareGallery', ['files' => $files])?>
+		</div>
+	</div>
+</div>
+
+<?=$this->insert('thumb', ['files' => $files])?>

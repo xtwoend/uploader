@@ -1,0 +1,39 @@
+<?php $this->layout('layout') ?>
+
+<form action="/upload" method="POST" enctype="multipart/form-data" id="fileupload">
+	<section class="hero">
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<h1 class="title">Posting gambar Anda di sini</h1>
+				<div class="subtitle">Dapatkan link permanen untuk Facebook, Twitter, papan pesan dan blog</div>
+				<div class="form-upload dropzone">
+					<div class="field">
+						<div class="control">
+							<div class="select is-info">
+								<select name="expired" id="expired" v-model="expired">
+									<option value="0">No expiration</option>
+									<option value="1">Remove after 1 day</option>
+									<option value="7">Remove after 7 day</option>
+									<option value="31">Remove after 31 day</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<vue-dropzone id="dropHere" ref="dropHere"
+						:options="dropOptions" 
+						@vdropzone-success="uploadSuccess"
+						@vdropzone-sending="sendingEvent"
+						@vdropzone-queue-complete="uploadComplete">
+						<div class="dropzone-custom-content">
+					        <h3 class="dropzone-custom-title">Drag and drop to upload content!</h3>
+					        <div class="subtitle">Click to choose, copy & paste or drag & drop files anywhere</div>
+					    </div>
+					</vue-dropzone>
+				</div>
+
+				<p>Dengan mengunggah gambar ke situs kami Anda setuju dengan <a href="#">Syarat penggunaan.</a></p>
+			</div>
+		</div>
+	</section>
+</form>

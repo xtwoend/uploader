@@ -1,0 +1,136 @@
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Tautan:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="link" class="input" type="text" value="<?= url($file->filename); ?>" readonly>
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('link')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Alamat langsung:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="file" class="input" type="text" value="<?= imageUrl($file->bucket, $file->path); ?>" readonly>
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('file')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Markdown:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="markdown" class="input" type="text" value="[![<?= $file->name; ?>](<?= imageUrl($file->bucket, $file->path); ?> )](<?= url($file->filename); ?>)" readonly>
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('markdown')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Gambar kecil untuk forum:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="forumbb" class="input" type="text" value="[url=<?= url($file->filename); ?>][img]<?= thumbUrl($file->bucket, $file->path); ?>[/img][/url]" readonly>
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('forumbb')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Gambar kecil untuk situs:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="forumhtml" class="input" type="text" value="<a href='<?= url($file->filename); ?>' target='_blank'><img src='<?= thumbUrl($file->bucket, $file->path); ?>' border='0' alt='<?= $file->name; ?>'/></a>" readonly>
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('forumhtml')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Hotlink untuk forum:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="hotlink" class="input" type="text" value="[url=<?= siteURL(); ?>][img]<?= imageUrl($file->bucket, $file->path); ?>[/img][/url][url=<?= siteURL(); ?>]upload online[/url]">
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('hotlink')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Hotlink untuk situs:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="hotlinkweb" class="input" type="text" value="<a href='<?= siteURL(); ?>' target='_blank'><img src='<?= imageUrl($file->bucket, $file->path); ?>' border='0' alt='<?= $file->name; ?>'/></a><br /><a href='<?= siteURL(); ?>'>upload online</a><br />">
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('hotlinkweb')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Tautan penghapusan:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="linkdelete" class="input" type="text" value="<?= url('delete/'.$file->filename); ?>" readonly>
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('linkdelete')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
+	    <label class="label">Tautan Gallery:</label>
+	</div>
+	<div class="field-body">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input ref="link" class="input" type="text" value="<?= url('gallery/'.$files[0]['group']); ?>" readonly>
+			</div>
+			<div class="control">
+				<a class="button is-info" @click="copy('link')">
+			     	<i class="icon ion-ios-copy ion-2x"></i>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+<gallery-link :files='<?=json_encode($files)?>' host='<?=siteURL()?>'></gallery-link>

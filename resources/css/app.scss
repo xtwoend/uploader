@@ -1,0 +1,131 @@
+@import "../../node_modules/bulma/bulma.sass";
+@import "ionicons.scss";
+
+html {
+	background:	#f0f0f0;
+}
+body {
+	color: #333;
+	height: 100%;
+}
+
+.navbar-item > .icon {
+	margin-right: 6px !important;
+}
+
+.form-upload {
+	margin: 4rem 0;
+	.control {
+		text-align: center !important;
+	}
+	.file {
+		justify-content: center !important;
+		.file-cta, .file-name {
+			padding-left: 4em;
+		    padding-right: 4em;
+		}
+	}
+}
+
+.footer {
+	background-color: transparent !important;
+	padding: 3rem 1.5rem 1rem;
+	.content {
+		width: 100%;
+	}
+	.powered {
+		font-size: 12px;
+	}
+}
+
+@media screen and (max-width: $tablet - 1px) {
+	.footer.navbar.is-fixed-bottom {
+		position: relative !important;
+	}
+}
+
+.dropzone {
+	border: none !important;
+}
+
+.dz-default.dz-message {
+    font-size: 22px;
+}
+
+// .dz-preview.dz-file-preview {
+//     border: 2px dashed #3298dc;
+//     border-radius: 6px;
+// }
+
+.hide {
+	display: none;
+}
+
+h1 {
+	font-size: 21px;
+}
+
+.main {
+	// height: calc(100vh - 52px);
+    // padding: 2rem 0;
+    .title-info {
+    	margin-bottom: 2rem;
+    }
+
+    .full-image {
+    	margin-right: -1.5rem;
+    	margin-left: -1.5rem;
+    	> img {
+	    	cursor: -webkit-zoom-out;
+		   	cursor: zoom-out;
+		}
+    }
+}
+
+.preview {
+	.card-content {
+		padding: 10px;
+		.title {
+			font-size: 16px;
+			font-weight: 400;
+		}
+	}
+}
+.copy .field-label {
+	flex-grow: 2 !important;
+	.label {
+		font-weight: 500;
+	}
+}
+.copy .field:not(:last-child) {
+    margin-bottom: 0.25rem;
+}
+
+.img-preview {
+	> img {
+	  max-width: 100%;
+	  height: auto;
+	  max-height: 80vh;
+	  cursor: -webkit-zoom-in;
+	   	cursor: zoom-in;
+	}
+}
+
+.dropzone {
+	background: transparent !important;
+	.dz-message .icon {
+		font-size: 100px;
+	}
+}
+.btn-toolbar {
+	margin-bottom: 1rem;
+}
+
+.share-wapper {
+	padding: 2rem;
+	margin-bottom: 2rem;
+	transition: all 1s ease-in-out;
+	.copy-frame {
+		max-width: 80%;
+	}
+}

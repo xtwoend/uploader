@@ -1,0 +1,28 @@
+<?php $this->layout('layout') ?>
+
+<div class="container">
+	<div class="columns">
+		<div class="column is-3 preview">
+			<h1 class="title-info">Hapus gambar ini?</h1>
+			<div class="card">
+				<div class="card-image">
+					<figure class="image">
+						<img src="<?= $file->thumb; ?>" alt="<?= $file->name; ?>">
+					</figure>
+				</div>
+				<div class="card-content">
+					<p class="title"><?= $file->name; ?></p>
+				</div>
+				<footer class="card-footer">
+				    <a href="#" 
+				    	@click="deleteFile(<?= $file->id; ?>)"
+				    	class="card-footer-item"><i class="icon ion-trash-a"></i>Delete</a>
+				    	<a href="<?=url($file->filename);?>" class="card-footer-item">Batal</a>
+				</footer>
+			</div>
+		</div>
+		<div class="column copy is-9">
+			
+		</div>
+	</div>
+</div>

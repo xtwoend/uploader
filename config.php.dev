@@ -1,0 +1,25 @@
+<?php
+
+return [
+	'buckets' => [
+		'cdn1.example.com'
+	],
+	'aws' => [
+		'credentials' => [
+			'key' => '',
+			'secret' => ''
+		],
+		'region' => '',
+		'version' => ''
+	],
+	'database' => [
+	    'database_type' => 'mysql',
+	    'database_name' => 'default',
+	    'server' => 'localhost',
+	    'username' => 'root',
+	    'password' => 'password'
+	],
+	'thumbnail' => [
+		'size' => 380
+	]
+];

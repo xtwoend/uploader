@@ -1,0 +1,34 @@
+<?php $this->layout('layout') ?>
+<div class="container btn-toolbar">
+	<button class="button is-small is-link is-outlined" @click="shareIt = !shareIt">
+	    <span class="icon">
+	    	<i class="icon ion-android-share ion-2x"></i> 
+	    </span>
+	    <span>Bagikan</span>
+	</button>
+	<a class="button is-small is-link is-outlined" href="<?=url('download/'.$file->filename);?>">
+	    <span class="icon">
+	    	<i class="icon ion-android-download ion-2x"></i>
+	    </span>
+	    <span>Unduh gambar asli</span>
+	</a>
+</div>
+
+<div ref="shareIt" :class="{'hide': ! shareIt, 'share-wapper': true}">
+	<div class="container copy">
+		<div class="copy-frame">
+			<?=$this->insert('share', ['file' => $file])?>
+		</div>
+	</div>
+</div>
+
+<div class="container" v-if="! zoom">
+	<div class="img-preview" @click="zoom=true">
+		<img src="<?= $file->url; ?>" alt="<?= $file->name; ?>">
+		<h3><?= $file->name; ?></h3>
+	</div>
+</div>
+<div class="full-image" v-else>
+	<img src="<?= $file->url; ?>" alt="<?= $file->name; ?>" @click="zoom=false">
+	<h3><?= $file->name; ?></h3>
+</div>

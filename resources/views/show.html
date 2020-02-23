@@ -1,0 +1,41 @@
+<?php $this->layout('layout') ?>
+
+<?php if(count($files) > 1): ?>
+	<div class="container">
+		<h1 class="title-info">Pengunggahan berhasil!</h1>
+		<div class="columns">
+			<div class="column">
+				<?=$this->insert('shareGallery', ['files' => $files]);?>
+			</div>
+		</div>
+	</div>
+	<?=$this->insert('thumb', ['files' => $files])?>
+<?php else: ?>
+	<div class="container">
+		<?php $file = (object) $files[0]; ?>
+		<div class="columns">
+			<div class="column is-3 preview">
+				<h1 class="title-info">Pengunggahan berhasil!</h1>
+				<div class="card">
+					<div class="card-image">
+						<figure class="image">
+							<img src="<?= $file->thumb; ?>" alt="<?= $file->name; ?>">
+						</figure>
+					</div>
+					<div class="card-content">
+						<p class="title"><?= $file->name; ?></p>
+					</div>
+					<footer class="card-footer">
+					    <a href="#" 
+					    	@click="deleteFile(<?= $file->id; ?>)"
+					    	class="card-footer-item"><i class="icon ion-trash-a"></i>Delete</a>
+					</footer>
+				</div>
+			</div>
+			<div class="column copy is-9">
+				<h1 class="title-info">&nbsp;</h1>
+				<?=$this->insert('share', ['file' => $file])?>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>

@@ -14,14 +14,12 @@ class CsrfMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {	
-    	if(! isset($_REQUEST['csrf']) && ($_REQUEST['csrf'] !== $_SESSION['csrf'])){
-			$response = new \Laminas\Diactoros\Response;
-		    $response->getBody()->write(json_encode(['error' => 'forbidden']));
-			return $response->withAddedHeader('content-type', 'application/json')->withStatus(403);
+    	if(isset($_REQUEST['csrf']) && ($_REQUEST['csrf'] === $_SESSION['csrf'])){
+            return $handler->handle($request);
 		}
 
-        // invoke the rest of the middleware stack and your controller resulting
-        // in a returned response object
-        return $handler->handle($request);
+       $response = new \Laminas\Diactoros\Response;
+        $response->getBody()->write(json_encode(['error' => 'forbidden']));
+        return $response->withAddedHeader('content-type', 'application/json')->withStatus(403);
     }
 }

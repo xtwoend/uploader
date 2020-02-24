@@ -55,23 +55,27 @@ class Uploader
 			$fileTempName = $upload['tmp_name'];
 			$stream = fopen($fileTempName, 'r+');
 			$fileName = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : $upload['name']);
-        	$keyName =  $this->getKeyName($stream);
+        	// $keyName =  $this->getKeyName($stream);
+            $keyName = $_POST['key'];
 
             list($width, $height) = getimagesize($fileTempName);
             
-        	$response = $this->filesystem->writeStream($keyName, $stream, [
-        		'visibility' => AdapterInterface::VISIBILITY_PUBLIC
-        	]);
-            if($response){
-            	$file = $this->fileInfo($keyName);
-            	$file['name'] = $fileName;
-            	$file['key'] = $keyName;
+        	// $response = $this->filesystem->writeStream($keyName, $stream, [
+        	// 	'visibility' => AdapterInterface::VISIBILITY_PUBLIC
+        	// ]);
+            // 
+            // if($response){
+                list($thumb, $type) = $this->createThumbnail($fileTempName, $keyName);
+            	// $file = $this->fileInfo($keyName);
+            	// $file['name'] = $fileName;
+            	// $file['key'] = $keyName;
                 $file['width'] = $width;
                 $file['height'] = $height;
-            	$file['hasKey'] = $this->hasKey;
-                $file['thumb'] = $this->createThumbnail($file, $keyName);
+            	// $file['hasKey'] = $this->hasKey;
+                $file['thumb'] = $thumb;
+                $file['type'] = $type;
             	$files[] = (object) $file;
-            }
+            // }
 		}
 
     	$this->response = $files;
@@ -82,10 +86,10 @@ class Uploader
     public function createThumbnail($file, $keyName)
     {
         try{
-            $blob = file_get_contents($file['url']);
+            // $blob = file_get_contents($file['url']);
 
-            $imagick = new \Imagick();
-            $imagick->readImageBlob($blob);
+            $imagick = new \Imagick($file);
+            // $imagick->readImageBlob($file);
 
             if($imagick){
                 
@@ -103,7 +107,8 @@ class Uploader
                 ]);
 
                 $url = $result['ObjectURL'];
-                return $url;
+                $type = $contentType;
+                return [$url, $type];
             }
         }
         catch (\Exception $e) {

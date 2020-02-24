@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50672a5e7f4443226f5c440a7d629079",
+    "content-hash": "ed5fdc447665c00683c1ccbb1c3a0d2f",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -149,6 +149,56 @@
                 "sqlite"
             ],
             "time": "2020-02-11T08:20:42+00:00"
+        },
+        {
+            "name": "eddturtle/direct-upload",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eddturtle/direct-upload.git",
+                "reference": "923e7cbba7a1d6fe3eb0cc4dd56e73d8262d1fd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eddturtle/direct-upload/zipball/923e7cbba7a1d6fe3eb0cc4dd56e73d8262d1fd1",
+                "reference": "923e7cbba7a1d6fe3eb0cc4dd56e73d8262d1fd1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EddTurtle\\DirectUpload\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Edd Turtle",
+                    "email": "edd@designedbyaturtle.co.uk",
+                    "homepage": "https://www.designedbyaturtle.co.uk"
+                }
+            ],
+            "description": "Composer Package to build an AWS Signature ready to Direct Upload to S3",
+            "keywords": [
+                "amazon",
+                "aws",
+                "direct",
+                "php",
+                "s3",
+                "signature",
+                "upload"
+            ],
+            "time": "2019-10-05T20:52:10+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

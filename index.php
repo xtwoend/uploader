@@ -1,8 +1,8 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require 'vendor/autoload.php';
 
@@ -20,6 +20,7 @@ $router = new League\Route\Router;
 
 $router->get('/', 'App\Controller::index');
 $router->post('/upload', 'App\Controller::upload')->middleware(new App\CsrfMiddleware);
+$router->post('/signature', 'App\Controller::signature')->middleware(new App\CsrfMiddleware);
 $router->get('/gallery/{group}', 'App\Controller::gallery');
 $router->get('/delete/{post}', 'App\Controller::del');
 $router->post('/destroy/{id:number}', 'App\Controller::destroy');

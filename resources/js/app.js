@@ -1,6 +1,5 @@
 import Vue from 'vue'
-import vueDropzone from "vue2-dropzone"
-import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import vueDropzone from "./dropzone"
 import GalleryLink from './gallery-link.vue'
 
 const app = new Vue({
@@ -16,6 +15,14 @@ const app = new Vue({
       expired: 0,
       files: [],
       zoom: false,
+      awss3: {
+        signingURL: '/signature',
+        headers: {},
+        params : {
+          csrf: window._csrf
+        },
+        sendFileToServer: true,
+      },
       dropOptions: {
         url: "/upload",
         addRemoveLinks: false,
@@ -31,6 +38,7 @@ const app = new Vue({
       formData.append('session', this.session);
       formData.append('expired', this.expired);
       formData.append('csrf', window._csrf);
+      formData.delete('files');
     },
     uploadComplete() {
       let slug = this.files[0].filename;
@@ -39,6 +47,12 @@ const app = new Vue({
     uploadSuccess(file, res) {
       let fileObj = res;
       this.files.push(fileObj);
+    },
+    s3UploadError(error) {
+      console.log(error)
+    },
+    s3UploadSuccess(location) {
+      console.log(location)
     },
     async deleteFile(id){
       let c = confirm('hapus gambar ini?')
@@ -74,16 +88,3 @@ const app = new Vue({
     }
   }
 });
-
-// const $altDz = document.getElementById("drop-wrapper");
-
-// $altDz.addEventListener("dragover", e => {
-//   e.preventDefault();
-// });
-
-// $altDz.addEventListener("drop", e => {
-//   e.preventDefault();
-//   if (e.dataTransfer && e.dataTransfer.files.length) {
-//     Dropzone.instances[0].drop({ dataTransfer: e.dataTransfer });
-//   }
-// });

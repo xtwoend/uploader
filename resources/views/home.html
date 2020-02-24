@@ -19,10 +19,12 @@
 							</div>
 						</div>
 					</div>
-					
 					<vue-dropzone id="dropHere" ref="dropHere"
 						:options="dropOptions" 
+						:awss3="awss3"
 						@vdropzone-success="uploadSuccess"
+						@vdropzone-s3-upload-error="s3UploadError"
+						@vdropzone-s3-upload-success="s3UploadSuccess"
 						@vdropzone-sending="sendingEvent"
 						@vdropzone-queue-complete="uploadComplete">
 						<div class="dropzone-custom-content">

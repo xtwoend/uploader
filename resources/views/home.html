@@ -10,7 +10,7 @@
 					<div class="field">
 						<div class="control">
 							<div class="select is-info">
-								<select name="expired" id="expired" v-model="expired">
+								<select name="expired" id="expired" v-model="expired" @change="setExpired">
 									<option value="0">No expiration</option>
 									<option value="1">Remove after 1 day</option>
 									<option value="7">Remove after 7 day</option>
@@ -22,6 +22,7 @@
 					<vue-dropzone id="dropHere" ref="dropHere"
 						:options="dropOptions" 
 						:awss3="awss3"
+						:expired="expired"
 						@vdropzone-success="uploadSuccess"
 						@vdropzone-s3-upload-error="s3UploadError"
 						@vdropzone-s3-upload-success="s3UploadSuccess"

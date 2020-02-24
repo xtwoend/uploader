@@ -11,6 +11,7 @@ use League\Plates\Engine;
 use Medoo\Medoo;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Intervention\Image\ImageManager;
 
 /**
  * 
@@ -21,6 +22,7 @@ class Controller
 	protected $db;
 	protected $config;
 	protected $s3;
+	protected $img;
 
 	public function __construct()
 	{
@@ -28,6 +30,7 @@ class Controller
 		$this->views = new Engine('resources/views', 'html');
 		$this->db = new Medoo($this->config['database']);
 		$this->s3 = new S3Client($this->config['aws']);
+		$this->img = new ImageManager(array('driver' => 'imagick'));
 	}
 
 	public function index(): ResponseInterface
@@ -58,7 +61,10 @@ class Controller
 		    		'name' => $_POST['filePath'],
 		    		'filename' => $hasKey,
 		    		'bucket' => $bucket,
-		    		'size' => $_POST['fileSize']
+		    		'contentType' => $_POST['contentType'],
+		    		'size' => $_POST['fileSize'],
+		    		'session' => $_POST['session'],
+		    		'expired' => $_POST['expired']??0
 		    	]
 		    ]
 		);
@@ -200,10 +206,88 @@ class Controller
 		return $response->withAddedHeader('content-type', 'application/json')->withStatus(200);
 	}
 
+	public function upData(ServerRequestInterface $request): ResponseInterface
+	{
+		$json = file_get_contents('php://input');
+        $data = json_decode($json);
+        $now = date('Y-m-d H:i:s');
+        $file = $data->file;
+        $expired = $file->expired;
+
+		// $obj=[];
+		// $objs=[];
+		// foreach($data->files as $file) {
+		// 	$expired = $file->expired;
+			$obj = [
+			    'group' => $file->session,
+			    'name' => $file->name,
+			    'filename' => $file->filename,
+			    'path' =>  $file->key,
+			    'size' => $file->size,
+			    'width' => $file->width,
+			    'height' => $file->height,
+			    'type' => $file->type?? '',
+			    'bucket' => $file->bucket,
+			    'url' => $file->url,
+			    'thumb' => $this->createTumb($file),
+			    'expired' => ($expired > 0)? date('Y-m-d', strtotime($now ." + {$expired} days")): null,
+			    'created_at' => $now,
+			    'updated_at' => $now,
+			];
+			$this->db->insert('files', $obj);
+		
+		// }
+
+		$response = new \Laminas\Diactoros\Response;
+	    $response->getBody()->write(json_encode($obj));
+		return $response->withAddedHeader('content-type', 'application/json')->withStatus(200);
+	}
+
 	protected function filesystem($bucket)
 	{
 		$adapter = new AwsS3Adapter($this->s3, $bucket);
         return new Filesystem($adapter);
+	}
+
+	protected function createTumb($file)
+	{
+		// try {
+		// 	$blob = file_get_contents($file->url);
+		// 	$imagick = new \Imagick();
+	 //        $imagick->readImageBlob($blob);
+
+	 //        if($imagick){
+	 //        	$contentType = $imagick->getImageMimeType();
+	 //            $imagick->scaleImage($this->config['thumbnail']['size']?? 300, 0);
+
+	 //            $result = $this->filesystem($file->bucket)->getAdapter()->getClient()->putObject([
+	 //                'ContentType' => $contentType,
+	 //                'Body' => $imagick->getImageBlob(),
+	 //                'Bucket' => $file->bucket,
+	 //                'Key' => 'thumb/'. $file->key,
+	 //                'StorageClass' => 'REDUCED_REDUNDANCY',
+	 //                'Tagging' => 'thumbnail=yes',
+	 //                'ACL' => 'public-read'
+	 //            ]);
+
+	 //          	return $result['ObjectURL'];
+	 //        }
+		// } catch (\Exception $e) {
+			
+		// }
+		return url('i/'.$file->filename);
+	}
+
+	public function thumb(ServerRequestInterface $request, $args): ResponseInterface
+	{
+		$post = $args['post'];
+		$file = $this->db->get('files', '*', ['filename' => $post]);
+
+		$image = $this->img->make($file['url'])->resize(300, null, function($c){
+			$c->aspectRatio();
+		});
+
+		echo $image->response('jpg', 90);
 	}
 
 	protected function mime2ext($mime)

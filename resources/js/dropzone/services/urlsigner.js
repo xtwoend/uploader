@@ -3,7 +3,8 @@ export default {
     let payload = {
       filePath: file.name,
       contentType: file.type,
-      fileSize: file.size
+      fileSize: file.size,
+      expired: config.expired
     }
     return new Promise((resolve, reject) => {
       var fd = new FormData();

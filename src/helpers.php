@@ -50,3 +50,14 @@ function view($template, $data = [])
 
     return $response;
 }
+
+function mix($path, $manifestDirectory = '')
+{
+    static $manifests = [];
+    
+    $manifestPath = __DIR__.'/../mix-manifest.json';
+    $manifests[$manifestPath] = json_decode(file_get_contents($manifestPath), true);
+    $manifest = $manifests[$manifestPath];
+
+    return $manifest[$path];
+}

@@ -12,7 +12,8 @@
 		"league/route": "^4.3",
 		"laminas/laminas-diactoros": "^2.2",
 		"laminas/laminas-httphandlerrunner": "^1.1",
-		"eddturtle/direct-upload": "^2.0"
+		"eddturtle/direct-upload": "^2.0",
+		"intervention/imagecache": "^2.4"
     },
     "autoload": {
         "psr-4": {

@@ -4,7 +4,7 @@
 	    <meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <title>Gambar <dot> pictures</title>
-	    <link rel="stylesheet" href="/dist/app.css">
+	    <link rel="stylesheet" href="<?=mix('/dist/app.css')?>">
  	</head>
 <body class="app">
 	
@@ -44,6 +44,7 @@
 		window._session = '<?= str_random(10); ?>'
 		window._csrf = '<?= $_SESSION["csrf"]; ?>'
 	</script>
-	<script src="/dist/app.js"></script>
+
+	<script src="<?=mix('/dist/app.js')?>"></script>
 </body>
 </html>

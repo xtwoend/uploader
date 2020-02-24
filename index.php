@@ -20,11 +20,13 @@ $router = new League\Route\Router;
 
 $router->get('/', 'App\Controller::index');
 $router->post('/upload', 'App\Controller::upload')->middleware(new App\CsrfMiddleware);
+$router->post('/upload-json', 'App\Controller::upData')->middleware(new App\CsrfMiddleware);
 $router->post('/signature', 'App\Controller::signature')->middleware(new App\CsrfMiddleware);
 $router->get('/gallery/{group}', 'App\Controller::gallery');
 $router->get('/delete/{post}', 'App\Controller::del');
 $router->post('/destroy/{id:number}', 'App\Controller::destroy');
 $router->get('/download/{post}', 'App\Controller::download');
+$router->get('/i/{post}', 'App\Controller::thumb');
 $router->get('/{post}', 'App\Controller::view');
 $router->get('/{group}/{post}', 'App\Controller::show');
 

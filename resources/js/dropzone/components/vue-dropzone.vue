@@ -47,6 +47,10 @@ export default {
       type: Boolean,
       default: false,
       required: false
+    },
+    expired: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -147,7 +151,22 @@ export default {
             "text/xml"
           );
           var s3ObjectLocation = xmlResponse.firstChild.children[0].innerHTML;
-          vm.$emit("vdropzone-s3-upload-success", s3ObjectLocation);
+          // emmit after success
+          let sign = file.s3Signature
+          let payload = {
+            url: decodeURIComponent(s3ObjectLocation),
+            key: sign.key,
+            name: sign.name,
+            filename: sign.filename,
+            bucket: sign.bucket,
+            type: sign.contentType,
+            size: sign.size,
+            session: sign.session,
+            expired: sign.expired,
+            height: file.height,
+            width: file.width
+          }
+          vm.$emit("vdropzone-s3-upload-success", payload);
         }
         if (vm.wasQueueAutoProcess) vm.setOption("autoProcessQueue", false);
       }

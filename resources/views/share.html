@@ -56,7 +56,7 @@
 	<div class="field-body">
 		<div class="field has-addons">
 			<div class="control is-expanded">
-				<input ref="forumbb" class="input" type="text" value="[url=<?= url($file->filename); ?>][img]<?= thumbUrl($file->bucket, $file->path); ?>[/img][/url]" readonly>
+				<input ref="forumbb" class="input" type="text" value="[url=<?= url($file->filename); ?>][img]<?=$file->thumb?>[/img][/url]" readonly>
 			</div>
 			<div class="control">
 				<a class="button is-info" @click="copy('forumbb')">
@@ -73,7 +73,7 @@
 	<div class="field-body">
 		<div class="field has-addons">
 			<div class="control is-expanded">
-				<input ref="forumhtml" class="input" type="text" value="<a href='<?= url($file->filename); ?>' target='_blank'><img src='<?= thumbUrl($file->bucket, $file->path); ?>' border='0' alt='<?= $file->name; ?>'/></a>" readonly>
+				<input ref="forumhtml" class="input" type="text" value="<a href='<?= url($file->filename); ?>' target='_blank'><img src='<?=$file->thumb?>' border='0' alt='<?= $file->name; ?>'/></a>" readonly>
 			</div>
 			<div class="control">
 				<a class="button is-info" @click="copy('forumhtml')">

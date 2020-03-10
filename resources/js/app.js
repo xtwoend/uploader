@@ -15,6 +15,7 @@ const app = new Vue({
       expired: 0,
       files: [],
       zoom: false,
+      redirectWaiting: false,
       awss3: {
         signingURL: '/signature',
         headers: {
@@ -48,10 +49,15 @@ const app = new Vue({
       // formData.append('expired', this.expired);
       // formData.append('csrf', window._csrf);
     },
-    uploadComplete() {
-      let slug = this.files[0].filename;
-      // let res = await this.sendData()
-      window.location.replace(`${this.session}/${slug}`);
+    async uploadComplete() {
+      let slug = await this.files[0].filename;
+      // if(typeof slug !== "undefined")
+      this.redirectWaiting = true;
+      setTimeout(()=> {
+        this.redirectWaiting = false;
+        window.location.replace(`${this.session}/${slug}`);
+      }, 5000);
+      // return;
     },
     uploadSuccess(file, res) {
       // let fileObj = res;

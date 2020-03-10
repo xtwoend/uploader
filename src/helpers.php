@@ -41,14 +41,14 @@ if( !function_exists('mime_content_type')) {
     }
 }
 
-function view($template, $data = [])
+function view($template, $data = [], $code = 200)
 {
     $response = new \Laminas\Diactoros\Response;
     $view = new \League\Plates\Engine('resources/views', 'html');
 
     $response->getBody()->write($view->render($template, $data));
 
-    return $response;
+    return $response->withStatus($code);
 }
 
 function mix($path, $manifestDirectory = '')
@@ -60,4 +60,16 @@ function mix($path, $manifestDirectory = '')
     $manifest = $manifests[$manifestPath];
 
     return $manifest[$path];
+}
+
+function dd($r)
+{
+    var_dump($r);
+    die;
+}
+
+function numbered($val)
+{
+    $val = (int) $val;
+    return number_format($val, 0,",",".");
 }

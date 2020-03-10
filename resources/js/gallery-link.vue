@@ -15,7 +15,7 @@
 					        <option value="3">Gambar kecil untuk forum</option>
 					        <option value="4">Gambar kecil untuk situs</option>
 					        <option value="5">Hotlink untuk forum</option>
-					        <option value="6">Hotlink untuk forum</option>
+					        <option value="6">Hotlink untuk situs</option>
 					      </select>
 					    </div>
 					</div>
@@ -74,8 +74,8 @@ export default {
   			link1 += `${this.host + e.filename}\n`
   			link2 += `http://${e.bucket}/${e.path}\n`
   			link3 += `[![${e.name}](http://${e.bucket}/${e.path} )](${this.host + e.filename})\n`
-  			link4 += `[url=${this.host + e.filename}][img]http://${e.bucket}/thumb/${e.path}[/img][/url]\n`
-  			link5 += `<a href='${this.host + e.filename}' target='_blank'><img src='http://${e.bucket}/thumb/${e.path}' border='0' alt='${e.name}'/></a>\n`
+  			link4 += `[url=${this.host + e.filename}][img]${e.thumb}[/img][/url]\n`
+  			link5 += `<a href='${this.host + e.filename}' target='_blank'><img src='${e.thumb}' border='0' alt='${e.name}'/></a>\n`
   			link6 += `[url=${this.host}][img]http://${e.bucket}/${e.path}[/img][/url][url=${this.host}]upload online[/url]\n`
   			link7 += `<a href='${this.host}' target='_blank'><img src='http://${e.bucket}/${e.path}' border='0' alt='23460.jpg'/></a><br /><a href='${this.host}'>upload online</a><br />\n`
   		})

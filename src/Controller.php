@@ -35,7 +35,8 @@ class Controller
 
 	public function index(): ResponseInterface
 	{
-		return view('home');
+		$count = $this->db->count('files');
+		return view('home', compact('count'));
 	}
 
 	public function signature(ServerRequestInterface $request): ResponseInterface
@@ -82,7 +83,8 @@ class Controller
 	public function view(ServerRequestInterface $request, $args): ResponseInterface
 	{	
 		$file = $this->db->get('files', '*', ['filename' => $args['post']]);
-		if(! (count($file) > 0))
+
+		if(! $file )
 			header("location: /");
 
 		return view('preview', ['file' => (object) $file]);
@@ -91,9 +93,9 @@ class Controller
 	public function show(ServerRequestInterface $request, $args): ResponseInterface
 	{
 		$group = $args['group'];
-
 		$files = $this->db->select('files', '*', ['group' => $group]);
-		if(! (count($files) > 0))
+
+		if(! $files)
 			header("location: /");
 
 		return view('show', compact('files'));
@@ -104,7 +106,7 @@ class Controller
 		$group = $args['group'];
 
 		$files = $this->db->select('files', '*', ['group' => $group]);
-		if(! (count($files) > 0))
+		if(! $files)
 			header("location: /");
 
 		return view('gallery', compact('files'));
@@ -115,7 +117,6 @@ class Controller
 		$file = $this->db->get('files', '*', ['id' => $args['id']]);
 		$response = new \Laminas\Diactoros\Response;
 	    
-
 		if($file){
 			$file = (object) $file;
 		
@@ -136,7 +137,7 @@ class Controller
 	{
 		$post = $args['post'];
 		$file = $this->db->get('files', '*', ['filename' => $post]);
-		if(! (count($file) > 0))
+		if(! $file)
 			header("location: /");
 
 		return view('delete', ['file' => (object) $file]);
@@ -146,8 +147,9 @@ class Controller
 	{
 		$post = $args['post'];
 		$file = $this->db->get('files', '*', ['filename' => $post]);
-		if(! (count($file) > 0))
+		if(! $file)
 			header("location: /");
+		
 		$file = (object) $file;
 		$result = $this->s3->getObject(['Bucket' => $file->bucket, 'Key' => $file->path]);
 
@@ -282,12 +284,14 @@ class Controller
 	{
 		$post = $args['post'];
 		$file = $this->db->get('files', '*', ['filename' => $post]);
+		if($file){
+			$image = $this->img->make($file['url'])->resize(300, null, function($c){
+				$c->aspectRatio();
+			});
 
-		$image = $this->img->make($file['url'])->resize(300, null, function($c){
-			$c->aspectRatio();
-		});
-
-		echo $image->response('jpg', 90);
+			echo $image->response('jpg', 90);
+		}
+		return view('404', [], 404);
 	}
 
 	protected function mime2ext($mime)

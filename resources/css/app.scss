@@ -112,6 +112,7 @@ h1 {
 }
 
 .dropzone {
+	position: relative;
 	background: transparent !important;
 	.dz-message .icon {
 		font-size: 100px;
@@ -128,4 +129,21 @@ h1 {
 	.copy-frame {
 		max-width: 80%;
 	}
+}
+.file-uploaded {
+	.blue {
+		color: #3273dc;
+	}
+	margin-bottom: 20px;
+}
+
+.waiting-redirect {
+    background-color: #ddd;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    border-radius: 4px;
 }

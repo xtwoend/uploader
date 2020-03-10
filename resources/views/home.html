@@ -4,9 +4,13 @@
 	<section class="hero">
 		<div class="hero-body">
 			<div class="container has-text-centered">
+				<h1 class="file-uploaded">Sudah ada <b class="blue"><?=numbered($count)?></b> total gambar di upload. <br>Dan terus bertambah...</h1>
 				<h1 class="title">Posting gambar Anda di sini</h1>
 				<div class="subtitle">Dapatkan link permanen untuk Facebook, Twitter, papan pesan dan blog</div>
 				<div class="form-upload dropzone">
+					<div class="waiting-redirect" v-show="redirectWaiting">
+						<span>prepare to redirect...</span>	
+					</div>
 					<div class="field">
 						<div class="control">
 							<div class="select is-info">

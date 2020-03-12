@@ -84,7 +84,7 @@ class Controller
 	{	
 		$file = $this->db->get('files', '*', ['filename' => $args['post']]);
 
-		if(! $file )
+		if(empty($file))
 			header("location: /");
 
 		return view('preview', ['file' => (object) $file]);
@@ -95,7 +95,7 @@ class Controller
 		$group = $args['group'];
 		$files = $this->db->select('files', '*', ['group' => $group]);
 
-		if(! $files)
+		if(empty($files))
 			header("location: /");
 
 		return view('show', compact('files'));
@@ -106,7 +106,7 @@ class Controller
 		$group = $args['group'];
 
 		$files = $this->db->select('files', '*', ['group' => $group]);
-		if(! $files)
+		if(empty($files))
 			header("location: /");
 
 		return view('gallery', compact('files'));
@@ -137,7 +137,7 @@ class Controller
 	{
 		$post = $args['post'];
 		$file = $this->db->get('files', '*', ['filename' => $post]);
-		if(! $file)
+		if(empty($file))
 			header("location: /");
 
 		return view('delete', ['file' => (object) $file]);
@@ -147,7 +147,7 @@ class Controller
 	{
 		$post = $args['post'];
 		$file = $this->db->get('files', '*', ['filename' => $post]);
-		if(! $file)
+		if(empty($file))
 			header("location: /");
 		
 		$file = (object) $file;

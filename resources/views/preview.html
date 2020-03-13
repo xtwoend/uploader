@@ -1,6 +1,5 @@
 <?php $this->layout('layout') ?>
 
-
 <?php $this->start('meta') ?>
 	<meta name="description" content="<?=$file->name?>">
 	<title><?=$file->name?></title>
@@ -9,14 +8,14 @@
 	<meta property="og:title" content="<?=$file->name?>">
 	<meta property="og:site_name" content="Gambar.pictures">
 	<meta property="og:description" content="<?=$file->name?>">
-	<meta property="og:image" content="<?=$file->url?>">
+	<meta property="og:image" content="<?=$file->thumb?>">
 	<meta property="og:image:width" content="<?=$file->width?>">
 	<meta property="og:image:height" content="<?=$file->height?>">
 	<meta name="twitter:card" content="photo">
 	<meta name="twitter:description" content="<?=$file->name?>">
 	<meta name="twitter:title" content="logo">
 	<meta name="twitter:site" content="@gambar_pictures">
-	<link rel="image_src" href="<?=$file->url?>">
+	<link rel="image_src" href="<?=$file->thumb?>">
 <?php $this->stop() ?>
 
 <div class="container btn-toolbar">
